@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Intuit I.O.U.</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/utilities.js"></script>
+    <!-- <script src="js/app.js"></script> -->
+    <!-- <script>
+    var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+      var msg;
+
+      db.transaction(function (tx) {
+         tx.executeSql('DROP TABLE IF EXISTS FRIENDS');
+         tx.executeSql('CREATE TABLE IF NOT EXISTS FRIENDS (id, name)');
+         tx.executeSql('INSERT INTO FRIENDS (id, name) VALUES (NULL, "foobar")');
+         tx.executeSql('INSERT INTO FRIENDS (id, name) VALUES (NULL, "logmsg")');
+         // msg = '<p>Log message created and row inserted.</p>';
+         // document.querySelector('#test').innerHTML =  msg;
+      })
+
+    </script> -->
+</head>
+<style>
+  .friend {
+    margin: 15px;
+  }
+</style>
+  <body>
+    <h1>Please Enter IOU Users!</h1>
+      <div>
+        <form action="app.html" id="userForm">
+          Your Name:<br>
+          <input type="text" class="friend" name="friend1">
+          <br>Friend #2:<br>
+          <input type="text" class="friend" name="friend2">
+          <br>Friend #3:<br>
+          <input type="text" class="friend" name="friend3">
+          <br>Friend #4:<br>
+          <input type="text" class="friend" name="friend4">
+          <br>Friend #5:<br>
+          <input type="text" class="friend" name="friend5">
+          <br>Friend #6:<br>
+          <input type="text" class="friend" name="friend6">
+          <br>Friend #7:<br>
+          <input type="text" class="friend" name="friend7">
+          <br>Friend #8:<br>
+          <input type="text" class="friend" name="friend8">
+          <br>Friend #9:<br>
+          <input type="text" class="friend" name="friend9">
+          <br>Friend #10:<br>
+          <input type="text" class="friend" name="friend10">
+          <br><br>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+      <div id="test">
+        <h1>WHOAAA</h1>
+        <button id="buttonTest">Test DB</button>
+      </div>
+  </body>
+</html>
