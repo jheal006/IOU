@@ -1,16 +1,22 @@
-
+var friendList = [];
 window.onload = function () {
 
 // Stop the form from submitting when a button is pressed
 // form.addEventListener('submit', function(e) {
 $( "form" ).on( "submit", function( event ) {
-	console.log("WAT HAPPENED?!?");
 	event.preventDefault();
   // Retrieve Friends
 	var name = $(this[name='friend1']).val();
-  //Create Array of Friends
-  // friendList.push(name);
-	// console.log("SHOULD OUTPUT Array===", friendList);
+  //Create Array of Friends to Display to user
+  friendList.push(name);
+	$(".list").empty();
+	$( '.list' ).append(
+    $( '<div />').append(
+            $.map(friendList, function(value, i) {
+                return $( '<p />', { text: value } );
+            })
+        )
+    )
 // 	iterate and clump them together into var data
 //
 // 	insertUser(data);
@@ -18,14 +24,10 @@ $( "form" ).on( "submit", function( event ) {
 		// tx.executeSql('DROP TABLE IF EXISTS FRIENDS');
 	 	tx.executeSql('CREATE TABLE IF NOT EXISTS FRIENDS (id INTEGER PRIMARY KEY, name)');
 	 	msg = '<p>Log message create and row instered.</p>';
-		// tx.executeSql('INSERT INTO FRIENDS (name) VALUES ("foobar")');
-		// tx.executeSql('INSERT INTO FRIENDS (name) VALUES ("logmsg")');
 		tx.executeSql('INSERT INTO FRIENDS (name) VALUES (?)', [name]);
 	});
-// 	window.location.reload
-	// window.location.href='app.html';
-
 });
+
 
 $("#buttonTest").on('click', function() {
   	db.transaction(function (tx) {
@@ -43,12 +45,13 @@ $("#buttonTest").on('click', function() {
   	});
   });
 
+	//Step to the next Page
   $("#next").on('click', function() {
     console.log('test');
     window.location.href="app.html";
-    populateDropdown();
   });
 
+	// Temp Clear DB button
   $("#cleardb").on('click', function() {
     	db.transaction(function (tx) {
     		 tx.executeSql('DROP TABLE IF EXISTS FRIENDS');
