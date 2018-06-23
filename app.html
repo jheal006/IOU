@@ -4,23 +4,46 @@
     <meta charset="utf-8">
     <title>Intuit I.O.U.</title>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script>src="js/utilities.js"</script>
-      <script>src="js/index.js"</script>
+      <script src="js/init.js"></script>
+      <script src="js/app.js"></script>
+      <script src="js/utilities.js"></script>
+      <script src="js/appDisplay.js"></script>
   </head>
+  <style>
+    button {
+      margin: 10px;
+    }
+  </style>
   <body>
-    <div>
-      <form action="app.html">
-        First name:<br>
-        <input type="text" name="firstname" value="Mickey">
-        <br>
-        Last name:<br>
-        <input type="text" name="lastname" value="Mouse">
-        <br><br>
-        <input type="submit" value="Submit">
-      </form>
-    </div>
-
+    <h3></h3>
+          	<div>
+          		<h2>Paid for Bill</h2>
+          		<select id="payer"></select>
+          		<br />
+          	</div>
+          	<div>
+          		<h2>Who went in on the Item?</h2>
+          		<div class="friendsOnBill"></div>
+          	</div>
+          	<div>
+          		<br />
+          		<h2>Items</h2>
+          		<input id="name" type="text" name="item" placeholder="Item">
+          			<input id="price" type="text" name="price" placeholder="Price">
+          				<br />
+          				<button id="newItem">New Item</button>
+          				<div class="items"></div>
+          			</div>
+          			<br />
+          			<button onclick="amountOwed()" style="display:block;"> Calculate </button>
+          			<div class="receipts"></div>
+                </form>
+              </div>
     <div id="results">
+    </div>
+    <div id="test">
+      <h1>WHOAAA</h1>
+      <button id="buttonTest">Test DB</button>
     </div>
 
   </body>
