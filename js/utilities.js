@@ -8,18 +8,25 @@ function insertUsers(name) {
 	})
 }
 
-function insertTransaction(payer, price, friendsWhoOwe) {
-	db.transaction(function (tx) { tx.executeSql('INSERT INTO TRANSACTIONS (id, log) VALUES (1, "foobar")'); })
+function insertTransaction(payer, amountDue, itemName, friendsWhoOwesID) {
+	db.transaction(function (tx) {
+		tx.executeSql('CREATE TABLE IF NOT EXISTS TRANSACTIONS (payer, amountDue, itemName, friendsWhoOwesID)');
+		tx.executeSql('INSERT INTO TRANSACTIONS (payer, amountDue, itemName, friendsWhoOwesID) VALUES (?,?,?,?)', [payer, amountDue, itemName, friendsWhoOwesID]);
+	})
 }
 
 function getResults() {
-	// db.transaction(function (tx) { tx.executeSql('SELECT GROUP AND STUFF'); })
+	db.transaction(function (tx) {
+		tx.executeSql('SELECT * FROM TRANSACTIONS', [], function (tx, results) {
+			 console.log("TRANSACTIONS RESULTS", results);
+		}, null);;
+	})
 	rows = ["payor", "friendsWhoOwe", "amount"];
 	return rows;
 }
 
 function renderResultsTable(rows) {
-	msg = "<table><tr>"
+	msg = "<table><tr>";
 		rows.forEach(function(e){
 			msg += '<td>' + e + '</td>';
 		});

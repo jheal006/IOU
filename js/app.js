@@ -30,6 +30,7 @@ $("#next").on('click', function() {
 $("#cleardb").on('click', function() {
   	db.transaction(function (tx) {
   		 tx.executeSql('DROP TABLE IF EXISTS FRIENDS');
+			 tx.executeSql('DROP TABLE IF EXISTS TRANSACTIONS');
     });
   });
 

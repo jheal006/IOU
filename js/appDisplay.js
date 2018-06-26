@@ -1,3 +1,5 @@
+var friendObject;
+var payer;
 var friendList = [];
 var friendsWhoOwe = [];
 
@@ -6,14 +8,15 @@ function populateDropdown() {
   db.transaction(function (tx) {
      tx.executeSql('SELECT * FROM FRIENDS', [], function (tx, results) {
         var len = results.rows.length, i;
+        friendObject = results.rows;
         for (i = 0; i < len; i++) {
           var opt = results.rows.item(i).name;
           var el = document.createElement("option");
           friendList.push(opt);
           el.textContent = opt;
           el.value = opt;
-          document.getElementById("payer").appendChild(el);
-          // console.log("FRIEND LIST", friendList);
+          $("#payer").append(el);
+          payer = $("#payer").val();
         }
      }, null);
   });
@@ -22,43 +25,74 @@ function populateDropdown() {
 /////// Who's In On the Bill? //////////
 function possibleFriendsOnTab() {
   setTimeout(function() {
-    $.each(friendList, function(i) {
-        var li = $("<ul/>")
-            .addClass("ui-menu-item")
-            .attr("role", "menuitem")
-            .appendTo($("#friendsOnBill"));
-        var input = $("<input/>")
-            .addClass("ui-all")
-            .attr("type", "checkbox")
-            .appendTo(li);
-        var aaa = $("<a/>")
-            .addClass("ui-all")
-            .text(friendList[i])
-            .appendTo(li);
-    });
-  }, 50)
+    var array = Array.from(friendList)
+    // Remove the Indivdual Responsible for Paying the tab
+    $("#friendsOnBill").empty();
+    var index = array.indexOf(payer);
+      array.splice(index,1);
+        // Populate List of Remaining Friends who were possibly in on the bill
+        $.each(array, function(i) {
+            var li = $("<ul/>")
+                .addClass("ui-menu-item")
+                .attr("role", "menuitem")
+                .appendTo($("#friendsOnBill"));
+            var input = $("<input/>")
+                .addClass("ui-all")
+                .attr("type", "checkbox")
+                .attr("val", friendObject[i].id)
+                .appendTo(li);
+            var aaa = $("<a/>")
+                .text(array[i])
+                .appendTo(li);
+        });
+    }, 50)
 }
 
 
-window.onload = function () {
+
+
+$(document).ready(function() {
  populateDropdown();
- possibleFriendsOnTab();
+ possibleFriendsOnTab(payer);
+ $("#payer").change(function() {
+     payer = $("#payer").val();
+     possibleFriendsOnTab();
+ });
+
+// Temporary Console Log of DB
+ $("#viewDB").on('click', function() {
+   	db.transaction(function (tx) {
+   		 tx.executeSql('SELECT * FROM FRIENDS', [], function (tx, results) {
+          console.log("FRIENDS RESULTS", results);
+   		 }, null);
+       tx.executeSql('SELECT * FROM TRANSACTIONS', [], function (tx, results) {
+          // console.log("TRANSACTIONS RESULTS", results);
+   		 }, null);
+   	});
+   });
+
 
  ///////// Calculate IOUs ///////////
 
  $("#calculate").on("click", function () {
-   var payer = $("#payer").val();
    var itemName = $("#item").val();
    var price = $("#price").val();
    var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+
+   // Run check to make sure all fields are filled out properly
+   if (itemName === "" || price === "" || payer === "" || checkboxes.length < 1) {
+       alert("Please Enter both An Item Name and Price! Also Who Paid The Bill!");
+   }
+
+   var amountDue = (parseInt(price) / (checkboxes.length + 1 )).toFixed(2);
    for (var i = 0; i < checkboxes.length; i++) {
-       friendsWhoOwe.push(checkboxes[i].parentElement.innerText);
+      console.log("AMOUNT DUE TO PAYER BY OTHERS ON BILL", amountDue);
+      var friendWhoOwesID = checkboxes[i].getAttribute("val");
+       insertTransaction(payer, amountDue, itemName, friendWhoOwesID);
    };
    //Run get results
-   insertTransaction(payer, price, friendsWhoOwe);
    getResults();
    renderResultsTable(rows);
  });
 
-
-};
+});
