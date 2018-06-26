@@ -15,18 +15,17 @@ function insertTransaction(payer, price, friendsWhoOwe) {
 
 function getResults() {
 	// db.transaction(function (tx) { tx.executeSql('SELECT GROUP AND SUM SHIT'); })
-	rows = ["payor", "possible", "amount"];
-	 // rows = {timmy, ,, }
+	rows = ["payor", "friendsWhoOwe", "amount"];
 	return rows;
 }
 
 
 function renderResultsTable(rows) {
-	msg = "<table>"
+	msg = "<table><tr>"
 		rows.forEach(function(e){
-			msg += '<tr><td>' + e + '</td></tr>';
+			msg += '<td>' + e + '</td>';
 		});
-	 msg += "</table>"
+	 msg += "</tr></table>"
 	$('#results').html(msg);
 }
 
