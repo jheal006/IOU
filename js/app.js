@@ -11,39 +11,36 @@ $( "form" ).on( "submit", function( event ) {
   friendList.push(name);
 	$(".list").empty();
 	$( '.list' ).append(
-    $( '<div />').append(
+    $( '<ul />').append(
             $.map(friendList, function(value, i) {
-                return $( '<p />', { text: value } );
+                return $( '<li />', { text: value } );
             })
         )
     )
 // 	iterate and clump them together into var data
-//
-// 	insertUser(data);
-	db.transaction(function (tx) {
-		// tx.executeSql('DROP TABLE IF EXISTS FRIENDS');
-	 	tx.executeSql('CREATE TABLE IF NOT EXISTS FRIENDS (id INTEGER PRIMARY KEY, name)');
-	 	msg = '<p>Log message create and row instered.</p>';
-		tx.executeSql('INSERT INTO FRIENDS (name) VALUES (?)', [name]);
-	});
+	insertUsers(name);
+	// db.transaction(function (tx) {
+	//  	tx.executeSql('CREATE TABLE IF NOT EXISTS FRIENDS (id INTEGER PRIMARY KEY, name)');
+	// 	tx.executeSql('INSERT INTO FRIENDS (name) VALUES (?)', [name]);
+	// });
 });
 
-
-$("#buttonTest").on('click', function() {
-  	db.transaction(function (tx) {
-  		 tx.executeSql('SELECT * FROM FRIENDS', [], function (tx, results) {
-  				var len = results.rows.length, i;
-  				msg = "<p>Found rows: " + len + "</p>";
-  				document.querySelector('#test').innerHTML +=  msg;
-
-  				for (i = 0; i < len; i++) {
-  					 msg = "<p><b>" + results.rows.item(i).name + "</b></p>";
-  					 // msg = "<p><b>" + results.rows.item(i).id + "</b></p>"
-  					 document.querySelector('#test').innerHTML +=  msg;
-  				}
-  		 }, null);
-  	});
-  });
+//
+// $("#buttonTest").on('click', function() {
+//   	db.transaction(function (tx) {
+//   		 tx.executeSql('SELECT * FROM FRIENDS', [], function (tx, results) {
+//   				var len = results.rows.length, i;
+//   				msg = "<p>Found rows: " + len + "</p>";
+//   				document.querySelector('#test').innerHTML +=  msg;
+//
+//   				for (i = 0; i < len; i++) {
+//   					 msg = "<p><b>" + results.rows.item(i).name + "</b></p>";
+//   					 msg = "<p><b>" + results.rows.item(i).id + "</b></p>"
+//   					 document.querySelector('#test').innerHTML +=  msg;
+//   				}
+//   		 }, null);
+//   	});
+//   });
 
 	//Step to the next Page
   $("#next").on('click', function() {
