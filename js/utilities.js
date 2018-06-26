@@ -12,13 +12,11 @@ function insertTransaction(payer, price, friendsWhoOwe) {
 	db.transaction(function (tx) { tx.executeSql('INSERT INTO TRANSACTIONS (id, log) VALUES (1, "foobar")'); })
 }
 
-
 function getResults() {
-	// db.transaction(function (tx) { tx.executeSql('SELECT GROUP AND SUM SHIT'); })
+	// db.transaction(function (tx) { tx.executeSql('SELECT GROUP AND STUFF'); })
 	rows = ["payor", "friendsWhoOwe", "amount"];
 	return rows;
 }
-
 
 function renderResultsTable(rows) {
 	msg = "<table><tr>"
@@ -29,9 +27,9 @@ function renderResultsTable(rows) {
 	$('#results').html(msg);
 }
 
-	// for rows i; ++ bullshit
+	// for rows i; ++
 	// <table>
-	// <tr> row shit </tr>
+	// <tr> row stuff </tr>
 	// </table>
 	//
 	// return all that html;
