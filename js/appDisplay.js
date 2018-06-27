@@ -80,9 +80,9 @@ $(document).ready(function() {
    var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
 
    // Run check to make sure all fields are filled out properly
-   if (itemName === "" || price === "" || payer === "" || checkboxes.length < 1) {
-       alert("Please Enter both An Item Name and Price! Also Who Paid The Bill!");
-   }
+   // if (itemName === "" || price === "" || payer === "" || checkboxes.length < 1) {
+   //     alert("Please Enter both An Item Name and Price! Also Who Paid The Bill!");
+   // }
 
    var amountDue = (parseInt(price) / (checkboxes.length + 1 )).toFixed(2);
    for (var i = 0; i < checkboxes.length; i++) {
@@ -92,7 +92,11 @@ $(document).ready(function() {
    };
    //Run get results
    getResults();
-   renderResultsTable(rows);
+   setTimeout(function() {
+     console.log("Rows Major", rowsMajor);
+     // renderResultsTable(rowsMajor);
+   }, 1000);
+
  });
 
 });

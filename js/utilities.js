@@ -1,5 +1,4 @@
-var rows;
-
+var rowsMajor = {};
 // DB FUNCTIONS
 function insertUsers(name) {
 	db.transaction(function (tx) {
@@ -17,17 +16,17 @@ function insertTransaction(payer, amountDue, itemName, friendsWhoOwesID) {
 
 function getResults() {
 	db.transaction(function (tx) {
+		var rows;
 		tx.executeSql('SELECT * FROM TRANSACTIONS', [], function (tx, results) {
-			 console.log("TRANSACTIONS RESULTS", results);
-		}, null);;
-	})
-	rows = ["payor", "friendsWhoOwe", "amount"];
-	return rows;
+			 rows = Array.from(results.rows);
+			 rowsMajor = Array.from(rows);
+		});
+	});
 }
 
-function renderResultsTable(rows) {
+function renderResultsTable(rowsMajor) {
 	msg = "<table><tr>";
-		rows.forEach(function(e){
+		rowsMajor.forEach(function(e){
 			msg += '<td>' + e + '</td>';
 		});
 	 msg += "</tr></table>"
