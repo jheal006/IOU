@@ -25,13 +25,13 @@ function populateDropdown() {
 /////// Who's In On the Bill? //////////
 function possibleFriendsOnTab() {
   setTimeout(function() {
-    var array = Array.from(friendList)
+    var newArray = Array.from(friendObject);
     // Remove the Indivdual Responsible for Paying the tab
     $("#friendsOnBill").empty();
-    var index = array.indexOf(payer);
-      array.splice(index,1);
+    var index = newArray.map(function(i) {return i.name; }).indexOf(payer);
+      newArray.splice(index,1);
         // Populate List of Remaining Friends who were possibly in on the bill
-        $.each(array, function(i) {
+        $.each(newArray, function(i) {
             var li = $("<ul/>")
                 .addClass("ui-menu-item")
                 .attr("role", "menuitem")
@@ -39,16 +39,14 @@ function possibleFriendsOnTab() {
             var input = $("<input/>")
                 .addClass("ui-all")
                 .attr("type", "checkbox")
-                .attr("val", friendObject[i].id)
+                .attr("val", newArray[i].id)
                 .appendTo(li);
             var aaa = $("<a/>")
-                .text(array[i])
+                .text(newArray[i].name)
                 .appendTo(li);
         });
-    }, 50)
+    }, 100)
 }
-
-
 
 
 $(document).ready(function() {
@@ -87,7 +85,7 @@ $(document).ready(function() {
    var amountDue = (parseInt(price) / (checkboxes.length + 1 )).toFixed(2);
    for (var i = 0; i < checkboxes.length; i++) {
       console.log("AMOUNT DUE TO PAYER BY OTHERS ON BILL", amountDue);
-      var friendWhoOwesID = checkboxes[i].getAttribute("val");
+      var friendWhoOwesID = parseInt(checkboxes[i].getAttribute("val"));
        insertTransaction(payer, amountDue, itemName, friendWhoOwesID);
    };
    //Run get results
