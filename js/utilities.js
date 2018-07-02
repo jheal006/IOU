@@ -1,4 +1,5 @@
 var rowsMajor = {};
+var data;
 // DB FUNCTIONS
 function insertUsers(name) {
 	db.transaction(function (tx) {
@@ -7,36 +8,62 @@ function insertUsers(name) {
 	})
 }
 
-function insertTransaction(payer, amountDue, itemName, friendWhoOwesID) {
+function insertTransaction(payerID, amountDue, itemName, friendWhoOwesID) {
 	db.transaction(function (tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS TRANSACTIONS (payer, amountDue, itemName, friendWhoOwesID)');
-		tx.executeSql('INSERT INTO TRANSACTIONS (payer, amountDue, itemName, friendWhoOwesID) VALUES (?,?,?,?)', [payer, amountDue, itemName, friendWhoOwesID]);
+		tx.executeSql('CREATE TABLE IF NOT EXISTS TRANSACTIONS (payerID, amountDue, itemName, friendWhoOwesID)');
+		tx.executeSql('INSERT INTO TRANSACTIONS (payerID, amountDue, itemName, friendWhoOwesID) VALUES (?,?,?,?)', [payerID, amountDue, itemName, friendWhoOwesID]);
 	})
 }
 
 function getResults() {
 	db.transaction(function (tx) {
 		var rows;
-		tx.executeSql('		SELECT TRANSACTIONS.payer, TRANSACTIONS.amountDue, FRIENDS.name AS "Friend Who Owes", SUM(amountDue) FROM TRANSACTIONS INNER JOIN FRIENDS ON TRANSACTIONS.friendWhoOwesID = FRIENDS.id GROUP BY  TRANSACTIONS.payer, FRIENDS.name', [], function (tx, results) {
-			 console.log("WHAT ARE THESE RESULTS?", results);
+		tx.executeSql('		SELECT TRANSACTIONS.payerID, TRANSACTIONS.amountDue, FRIENDS.name AS "friendWhoOwes", SUM(amountDue) AS "sum" FROM TRANSACTIONS INNER JOIN FRIENDS ON TRANSACTIONS.friendWhoOwesID = FRIENDS.id GROUP BY  TRANSACTIONS.payerID, FRIENDS.name', [], function (tx, results) {
+			 // console.log("WHAT ARE THESE RESULTS?", results);
+			 data = results;
 		});
-		// tx.executeSql('		SELECT TRANSACTIONS.payer, TRANSACTIONS.friendWhoOwesID, TRANSACTIONS.amountDue, SUM(TRANSACTIONS.amountDue) FROM TRANSACTIONS	 GROUP BY  TRANSACTIONS.payer, TRANSACTIONS.friendWhoOwesID	', [], function (tx, results) {
+		// tx.executeSql('		SELECT TRANSACTIONS.payerID, TRANSACTIONS.friendWhoOwesID, TRANSACTIONS.amountDue, SUM(TRANSACTIONS.amountDue) FROM TRANSACTIONS	 GROUP BY  TRANSACTIONS.payerID, TRANSACTIONS.friendWhoOwesID	', [], function (tx, results) {
 		// 	 console.log("WHAT IS THIS SUM?", results);
 		// });
-		tx.executeSql('SELECT * FROM TRANSACTIONS', [], function (tx, results) {
-			 rows = Array.from(results.rows);
-			 rowsMajor = Array.from(rows);
-		});
+		// tx.executeSql('SELECT * FROM TRANSACTIONS', [], function (tx, results) {
+		// 	 rows = Array.from(results.rows);
+		// 	 rowsMajor = Array.from(rows);
+		// });
 	});
 }
 
-function renderResultsTable(rowsMajor) {
-	msg = "<table><tr>";
-		rowsMajor.forEach(function(e){
-			msg += '<td>' + e + '</td>';
-		});
-	 msg += "</tr></table>"
-	$('#results').html(msg);
+function renderResultsTable(data) {
+	console.log("RESULTS", data);
+	var newArray = data.rows;
+	newArray = Array.from(newArray);
+	console.log("New Array", newArray);
+	for (var i = 0; i < newArray.length; i++) {
+		var newAmount;
+		var origPayer = newArray[i].payerID;
+		var origFriend = newArray[i].friendWhoOwes;
+		for (var j = 1; j < newArray.length; j++) {
+			var tempPayer = newArray[j].payerID;
+			var tempFriend = newArray[j].friendWhoOwes
+			if ( origPayer === tempFriend && origFriend === tempPayer ) {
+				newAmount = Math.abs(newArray[i].sum - newArray[j].sum );
+				console.log("NEW AMOUNT", newAmount);
+				if ( (newArray[i].sum - newAmount) > 0) {
+					newArray[i].sum = newAmount
+					newArray[j].sum = 0;
+				}
+				// else if ( (newArray[j].sum - newAmount) < 0) {
+				// 	newArray[j].sum = 0;
+				// }
+			}
+		}
+	}
+	console.log("Adjusted Array", newArray);
+	// msg = "<table><tr>";
+	// 	results.forEach(function(e){
+	// 		msg += '<td>' + e + '</td>';
+	// 	});
+	//  msg += "</tr></table>"
+	// $('#results').html(msg);
 }
 
 	// for rows i; ++

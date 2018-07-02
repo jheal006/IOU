@@ -32,6 +32,7 @@ function possibleFriendsOnTab() {
       newArray.splice(index,1);
         // Populate List of Remaining Friends who were possibly in on the bill
         $.each(newArray, function(i) {
+            // var val = parseInt(friendList[i])+1;
             var li = $("<ul/>")
                 .addClass("ui-menu-item")
                 .attr("role", "menuitem")
@@ -81,8 +82,11 @@ $(document).ready(function() {
    // if (itemName === "" || price === "" || payer === "" || checkboxes.length < 1) {
    //     alert("Please Enter both An Item Name and Price! Also Who Paid The Bill!");
    // }
+   function round(value, decimals) {
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+  }
 
-   var amountDue = (parseInt(price) / (checkboxes.length + 1 )).toFixed(2);
+   var amountDue = (price/ (checkboxes.length + 1 )).toFixed(2);
    for (var i = 0; i < checkboxes.length; i++) {
       console.log("AMOUNT DUE TO PAYER BY OTHERS ON BILL", amountDue);
       var friendWhoOwesID = parseInt(checkboxes[i].getAttribute("val"));
@@ -91,8 +95,8 @@ $(document).ready(function() {
    //Run get results
    getResults();
    setTimeout(function() {
-     console.log("Rows Major", rowsMajor);
-     // renderResultsTable(rowsMajor);
+     // console.log("Rows Major", rowsMajor);
+     renderResultsTable(data);
    }, 1000);
 
  });
