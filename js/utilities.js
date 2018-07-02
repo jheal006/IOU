@@ -18,13 +18,9 @@ function insertTransaction(payerID, amountDue, itemName, friendWhoOwesID) {
 function getResults() {
 	db.transaction(function (tx) {
 		var rows;
-		tx.executeSql('		SELECT TRANSACTIONS.payerID, TRANSACTIONS.amountDue, FRIENDS.name AS "friendWhoOwes", SUM(amountDue) AS "sum" FROM TRANSACTIONS INNER JOIN FRIENDS ON TRANSACTIONS.friendWhoOwesID = FRIENDS.id GROUP BY  TRANSACTIONS.payerID, FRIENDS.name', [], function (tx, results) {
-			 // console.log("WHAT ARE THESE RESULTS?", results);
+		tx.executeSql('SELECT TRANSACTIONS.payerID, TRANSACTIONS.amountDue, FRIENDS.name AS "friendWhoOwes", SUM(amountDue) AS "sum" FROM TRANSACTIONS INNER JOIN FRIENDS ON TRANSACTIONS.friendWhoOwesID = FRIENDS.id GROUP BY TRANSACTIONS.payerID, FRIENDS.name', [], function (tx, results) {
 			 data = results;
 		});
-		// tx.executeSql('		SELECT TRANSACTIONS.payerID, TRANSACTIONS.friendWhoOwesID, TRANSACTIONS.amountDue, SUM(TRANSACTIONS.amountDue) FROM TRANSACTIONS	 GROUP BY  TRANSACTIONS.payerID, TRANSACTIONS.friendWhoOwesID	', [], function (tx, results) {
-		// 	 console.log("WHAT IS THIS SUM?", results);
-		// });
 		// tx.executeSql('SELECT * FROM TRANSACTIONS', [], function (tx, results) {
 		// 	 rows = Array.from(results.rows);
 		// 	 rowsMajor = Array.from(rows);
@@ -34,8 +30,7 @@ function getResults() {
 
 function renderResultsTable(data) {
 	console.log("RESULTS", data);
-	var newArray = data.rows;
-	newArray = Array.from(newArray);
+	var newArray =  Array.from(data.rows);
 	console.log("New Array", newArray);
 	for (var i = 0; i < newArray.length; i++) {
 		var newAmount;
@@ -58,12 +53,18 @@ function renderResultsTable(data) {
 		}
 	}
 	console.log("Adjusted Array", newArray);
-	// msg = "<table><tr>";
-	// 	results.forEach(function(e){
-	// 		msg += '<td>' + e + '</td>';
-	// 	});
-	//  msg += "</tr></table>"
-	// $('#results').html(msg);
+	var payers = [...new Set(newArray.map(payer => payer.payerID))];
+	console.log("PAYERS", payers);
+	$('#results').html(msg);
+	/// Display Tab
+	$.each(newArray, function(i) {
+	var html = "<div class='newReceipts'>";
+		html += ("Money Owed To: " + newArray[i].payerID);
+		html += ("<p>From: " + newArray[i].friendWhoOwes + "</p>");
+		html += ("<p>Amount: " + newArray[i].sum + "</p>");
+		html += "</div>";
+	$("#results").append(html);
+	});
 }
 
 	// for rows i; ++
