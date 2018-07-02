@@ -1,0 +1,59 @@
+body {
+  background: #1d2a38;
+  display: block;
+  margin: 50px;
+}
+
+input[type=text] {
+    color: #39ff14;
+    background: #1d2a38;
+    border: none;
+}
+
+input[type=checkbox], input[type=radio] {
+    vertical-align: middle;
+    position: relative;
+    bottom: 1px;
+}
+input[type=radio] {
+    bottom: 2px;
+}
+button {
+  margin: 10px;
+}
+table, th, td {
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid black;
+}
+.newReceipts {
+  color: #96a3b5;
+  display: inline-block;
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid #96a3b5;
+}
+
+.newReceipts em {
+  color: #ff0101;
+}
+
+.friendsOnBill {
+  padding: 10px;
+}
+
+.primeContainer {
+  color: #96a3b5;
+  background: #0f1a26;
+  border: 1px solid #39ff14;
+  position: relative;
+  margin: auto;
+  padding: 15px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 500px;
+  min-height: 250px;
+  border-radius: 3px;
+}

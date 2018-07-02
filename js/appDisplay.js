@@ -22,7 +22,7 @@ function populateDropdown() {
   });
 };
 
-/////// Who's In On the Bill? //////////
+/////// Who's In On the Bill? List Checkboxes //////////
 function possibleFriendsOnTab() {
   setTimeout(function() {
     var newArray = Array.from(friendObject);
@@ -32,7 +32,6 @@ function possibleFriendsOnTab() {
       newArray.splice(index,1);
         // Populate List of Remaining Friends who were possibly in on the bill
         $.each(newArray, function(i) {
-            // var val = parseInt(friendList[i])+1;
             var li = $("<ul/>")
                 .addClass("ui-menu-item")
                 .attr("role", "menuitem")
@@ -42,17 +41,29 @@ function possibleFriendsOnTab() {
                 .attr("type", "checkbox")
                 .attr("val", newArray[i].id)
                 .appendTo(li);
-            var aaa = $("<a/>")
+            var aaa = $("<a/> ")
                 .text(newArray[i].name)
                 .appendTo(li);
         });
     }, 100)
 }
 
+function renderResultsTable(array) {
+  $("#results").empty();
+  $.each(array, function(i) {
+  var html = "<div class='newReceipts'>";
+    html += ("Money Owed To: " + array[i].payerID);
+    html += ("<p>From: " + array[i].friendWhoOwes + "</p>");
+    html += ("<p>Amount: <em>" + array[i].sum + "</em></p>");
+    html += "</div>";
+  $("#results").append(html);
+  });
+}
+
 
 $(document).ready(function() {
  populateDropdown();
- possibleFriendsOnTab(payer);
+ possibleFriendsOnTab();
  $("#payer").change(function() {
      payer = $("#payer").val();
      possibleFriendsOnTab();
@@ -62,43 +73,26 @@ $(document).ready(function() {
  $("#viewDB").on('click', function() {
    	db.transaction(function (tx) {
    		 tx.executeSql('SELECT * FROM FRIENDS', [], function (tx, results) {
-          console.log("FRIENDS RESULTS", results);
+          // console.log("FRIENDS RESULTS", results);
    		 }, null);
        tx.executeSql('SELECT * FROM TRANSACTIONS', [], function (tx, results) {
-          // console.log("TRANSACTIONS RESULTS", results);
+          console.log("TRANSACTIONS RESULTS", results);
    		 }, null);
    	});
-   });
+  });
 
 
  ///////// Calculate IOUs ///////////
 
- $("#calculate").on("click", function () {
-   var itemName = $("#item").val();
-   var price = $("#price").val();
-   var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
-
-   // Run check to make sure all fields are filled out properly
-   // if (itemName === "" || price === "" || payer === "" || checkboxes.length < 1) {
-   //     alert("Please Enter both An Item Name and Price! Also Who Paid The Bill!");
-   // }
-   function round(value, decimals) {
-    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-  }
-
-   var amountDue = (price/ (checkboxes.length + 1 )).toFixed(2);
-   for (var i = 0; i < checkboxes.length; i++) {
-      console.log("AMOUNT DUE TO PAYER BY OTHERS ON BILL", amountDue);
-      var friendWhoOwesID = parseInt(checkboxes[i].getAttribute("val"));
-       insertTransaction(payer, amountDue, itemName, friendWhoOwesID);
-   };
-   //Run get results
+$("#calculate").on("click", function () {
+   //Send to DB
+   submitToDB();
+   //Get Results from DB
    getResults();
+   //Set timeout to allow info retrieval from DB
    setTimeout(function() {
-     // console.log("Rows Major", rowsMajor);
-     renderResultsTable(data);
-   }, 1000);
-
+     calcIOU(data);
+   }, 250);
  });
 
 });

@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Intuit I.O.U.</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/app.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="js/init.js"></script>
     <script src="js/app.js"></script>
@@ -14,16 +16,18 @@
   }
 </style>
   <body>
+    <div class="primeContainer">
     <h1>Please Enter Friends for IOU App!</h1>
       <div>
         <form id="userForm">
           Enter Friends Name's<br>
           <input type="text" class="friend" name="friend1">
-          <input type="submit" value="Submit">
+          <input type="submit" value="Add">
         </form>
         <div class="list"> </div>
         <button id="next">Next Page</button>
-        <button id="cleardb">Clear DB</button>
+        <button id="cleardb">Reset</button>
+      </div>
       </div>
   </body>
 </html>
