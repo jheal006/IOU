@@ -18,7 +18,7 @@ function insertTransaction(payerID, amountDue, itemName, friendWhoOwesID) {
 function getResults() {
 	db.transaction(function (tx) {
 		var rows;
-		tx.executeSql('SELECT TRANSACTIONS.payerID, TRANSACTIONS.amountDue, FRIENDS.name AS "friendWhoOwes", SUM(amountDue) AS "sum" FROM TRANSACTIONS INNER JOIN FRIENDS ON TRANSACTIONS.friendWhoOwesID = FRIENDS.id GROUP BY TRANSACTIONS.payerID, FRIENDS.name', [], function (tx, results) {
+		tx.executeSql('SELECT TRANSACTIONS.payerID, TRANSACTIONS.amountDue, itemName, FRIENDS.name AS "friendWhoOwes", SUM(amountDue) AS "sum" FROM TRANSACTIONS INNER JOIN FRIENDS ON TRANSACTIONS.friendWhoOwesID = FRIENDS.id GROUP BY TRANSACTIONS.payerID, FRIENDS.name', [], function (tx, results) {
 			 data = results;
 		});
 	});

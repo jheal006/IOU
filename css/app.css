@@ -38,6 +38,10 @@ table, th, td {
   color: #ff0101;
 }
 
+.newReceipts h6 {
+  color: #39ff14; 
+}
+
 .friendsOnBill {
   padding: 10px;
 }

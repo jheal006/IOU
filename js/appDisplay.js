@@ -48,13 +48,13 @@ function possibleFriendsOnTab() {
     }, 100)
 }
 
-function renderResultsTable(array) {
+function renderResultsTable(array, items) {
   $("#results").empty();
   $.each(array, function(i) {
   var html = "<div class='newReceipts'>";
-    html += ("Money Owed To: " + array[i].payerID);
+    html += ("Money Owed To: <h6>" + array[i].payerID + "</h6>");
     html += ("<p>From: " + array[i].friendWhoOwes + "</p>");
-    html += ("<p>Amount: <em>" + array[i].sum + "</em></p>");
+    html += ("<p>Amount: <em>" + array[i].sum.toFixed(2) + "</em></p>");
     html += "</div>";
   $("#results").append(html);
   });

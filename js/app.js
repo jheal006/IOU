@@ -1,6 +1,7 @@
 var friendList = [];
 
-function calcIOU(data) {
+function calcIOU(data, itemNames) {
+		// Retrieve and Compare SUMs
 	var newArray =  Array.from(data.rows);
 	console.log("New Array", newArray);
 		for (var i = 0; i < newArray.length; i++) {
@@ -11,7 +12,6 @@ function calcIOU(data) {
 					var tempFriend = newArray[j].friendWhoOwes
 					if ( origPayer === tempFriend && origFriend === tempPayer ) {
 						var tabValue = Math.abs(newArray[i].sum - newArray[j].sum );
-						console.log("NEW AMOUNT", tabValue);
 						if ( newArray[i].sum > newArray[j].sum ) {
 							newArray[i].sum = tabValue;
 							newArray[j].sum = 0;
@@ -25,8 +25,9 @@ function calcIOU(data) {
 					}
 				}
 		}
+		//Send finalized IOU Amounts to display func
 		renderResultsTable(newArray);
-}
+	}
 
 function submitToDB() {
    var itemName = $("#item").val();
@@ -56,11 +57,11 @@ $( "form" ).on( "submit", function( event ) {
   friendList.push(name);
 	$(".list").empty();
 	$( '.list' ).append(
-    $( '<ul />').append(
-            $.map(friendList, function(value, i) {
-                return $( '<li />', { text: value } );
-            })
-        )
+  $( '<ul />').append(
+          $.map(friendList, function(value, i) {
+              return $( '<li />', { text: value } );
+          })
+      )
     )
 //Insert Users To DB
 	insertUsers(name);
@@ -72,7 +73,7 @@ $("#next").on('click', function() {
   window.location.href="app.html";
 });
 
-// Temp Clear DB button
+// Temp Reset DB button
 $("#cleardb").on('click', function() {
 	friendList = [];
 	$(".list").empty();
