@@ -45,7 +45,7 @@ function possibleFriendsOnTab() {
                 .text(newArray[i].name)
                 .appendTo(li);
         });
-    }, 100)
+    }, 250)
 }
 
 function renderResultsTable(array, items) {
