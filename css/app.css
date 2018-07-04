@@ -39,7 +39,11 @@ table, th, td {
 }
 
 .newReceipts h6 {
-  color: #39ff14; 
+  color: #39ff14;
+}
+
+.friend {
+  margin: 15px;
 }
 
 .friendsOnBill {
