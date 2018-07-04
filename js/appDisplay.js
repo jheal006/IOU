@@ -72,18 +72,6 @@ $(document).ready(function() {
     possibleFriendsOnTab();
   });
 
-  // Temporary Console Log of DB
-  $("#viewDB").on('click', function() {
-    db.transaction(function(tx) {
-      tx.executeSql('SELECT * FROM FRIENDS', [], function(tx, results) {
-        // console.log("FRIENDS RESULTS", results);
-      }, null);
-      tx.executeSql('SELECT * FROM TRANSACTIONS', [], function(tx, results) {
-        console.log("TRANSACTIONS RESULTS", results);
-      }, null);
-    });
-  });
-
 
   ///////// Calculate IOUs ///////////
 
