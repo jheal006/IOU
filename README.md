@@ -28,13 +28,13 @@ Time for your friends to pay up...
 
 ## App Notes
 
-###The JavaScript has multiple comments explaining the purpose and steps of the primary app functions. 
+### The JavaScript has multiple comments explaining the purpose and steps of the primary app functions. 
 - init.js creates the local browser DB and readies basic form functions. As well, this handles the intial page step and establishes a clear function for the DB.
 - Utilities.js contains functionality for DB interactions, including table creation and queries.
 - appDisplay.js handles primary display of the function including rendering of the dropdown menu, checkbox list of friends, and the final receipts.
 - app.js contains the primary logic of the app. The app is constructed by storing individual amounts owed between the tab payer and borrower, based on how many individuals went in on a certain item. The DB then returns a SUM total of monies owed by an individual borrower to the tab payer. At this point the app searches for the absolute value of the difference in the reverse use case, and assigns that value to the individual who is still owed money.  
 
-###Utilities.js consists of all the SQL browser DB interactions. 
+### Utilities.js consists of all the SQL browser DB interactions. 
 - Insert Users and Insert Transaction creates two separate DB tables one for holding friend names, the other for receipt information.
 - Get Results queries the Transaction table and returns all rows with the following columns explained:
   Payer, Amount Due for that specific tab, the specific Friend who went in on the tab for that specific item and, lastly, the SUM of the 
