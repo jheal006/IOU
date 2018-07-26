@@ -13,7 +13,7 @@ Create a list of at least two friends and then proceed to the next page.
 
 ![step1](https://user-images.githubusercontent.com/20628500/42251289-5c0ae9b0-7eeb-11e8-9ebc-16d05570a7d0.PNG)
 
-###Note, you can reset your list of friends, or your receipts from the next page by returning here and pressing 'Reset'
+### Note, you can reset your list of friends, or your receipts from the next page by returning here and pressing 'Reset'
 
 ## Step 2) Fill Out the Form!
 Select the friend who paid for the bill, and those who went on that specific item, then, input the item name and price!
