@@ -1,4 +1,3 @@
-var rowsMajor = {};
 var data;
 // DB FUNCTIONS
 function insertUsers(name) {
